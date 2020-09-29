@@ -1,15 +1,20 @@
+/*
+  Implementation of the Luhn's algorithm for cs50 pset1
+*/
 #include <stdio.h>
 #include <cs50.h>
 #include <string.h>
 
 int get_sum_of_every_second_digit(long number, bool start_from_the_end);
 long check_last_digit(long number, int digit);
+void check_validity(long card_number, int odd, int even);
 
 int main(int argc, string argv[])
 {
 	long number = get_long("Credit Card Number: ");
 	int sum_of_every_other = get_sum_of_every_second_digit(number, false);
 	int sum_of_every_second = get_sum_of_every_second_digit(number, true);
+	check_validity(number, sum_of_every_second, sum_of_every_other);
 }
 
 /*
@@ -44,7 +49,43 @@ int get_sum_of_every_second_digit(long number, bool start_from_the_end)
 			sum = sum + last_digit;
 		}
 	}
-	printf("%i\n", sum);
+	//printf("%i\n", sum);
 	return sum;
 }
 
+void check_validity(long card_number, int odd, int even)
+{
+	int counter = 0;
+	int first_digit;
+	while(card_number > 0)
+	{
+		card_number = card_number / 10;
+		counter ++;
+		if(counter == 15)
+		{
+			first_digit = card_number;
+		}
+	}
+	
+	int sum = odd + even;
+	if(sum % 10 == 0 && counter == 15)
+	{
+		printf("AMERICAN EXPRESS\n");
+	}
+	else if(sum % 10 == 0 && counter == 16 && first_digit == 4)
+	{
+		printf("VISA\n");
+	}
+	else if(sum % 10 == 0 && counter == 13)
+	{
+		printf("VISA\n");
+	}
+	else if(sum % 10 == 0 && counter == 16 && first_digit != 4)
+	{
+		printf("MASTERCARD\n");
+	}
+	else
+	{
+		printf("Invalid\n");
+	}
+}
