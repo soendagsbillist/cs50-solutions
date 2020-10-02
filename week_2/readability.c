@@ -1,22 +1,24 @@
 /*
-  Implementation of the readability program for cs50 pset2
-  It computes the approximate grade lelev of the given corpus
+  Implementation of the readability program for cs50 pset2,
+  that computes the approximate grade level of the given corpus.
 */
 #include <stdio.h>
 #include <cs50.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 
 int calculate_chars(string text);
 int calculate_words(string text);
 int calculate_sentences(string text);
+void estimate_grade(int letters, int words, int sentences);
 
 int main(int argc, string argv[])
 {
     string corpus = get_string("Text: ");
-    calculate_chars(corpus);
-    calculate_words(corpus);
-    calculate_sentences(corpus);
+    estimate_grade(calculate_chars(corpus),
+		   calculate_words(corpus),
+		   calculate_sentences(corpus));
 }
 
 //String -> Int
@@ -62,4 +64,23 @@ int calculate_sentences(string text)
 	}
     }
     return counter;
+}
+
+void estimate_grade(int letters, int words, int sentences)
+{
+    float letters_per_hundred = (float) letters / words * 100;
+    float sentences_per_hundred = (float) sentences / words * 100;
+    float index = 0.0588 * letters_per_hundred - 0.296 * sentences_per_hundred - 15.8;
+    if(round(index) > 16)
+    {
+	printf("Grade 16+\n");
+    }
+    else if(round(index < 1))
+    {
+	printf("Before Grade 1\n");
+    }
+    else
+    {
+	printf("Grade %.0f\n", round(index));
+    }
 }
