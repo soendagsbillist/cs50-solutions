@@ -8,26 +8,43 @@
 #include <ctype.h>
 
 int calculate_chars(string text);
+int calculate_words(string text);
 
 int main(int argc, string argv[])
 {
-	string corpus = get_string("Text: ");
-	calculate_chars(corpus);
+    string corpus = get_string("Text: ");
+    calculate_chars(corpus);
+    calculate_words(corpus);
 }
 
 //String -> Int
 int calculate_chars(string text)
 {
-	int counter = 0;
-	int len = strlen(text);
-	for(int i = 0; i < len; i++)
+    int counter = 0;
+    int len = strlen(text);
+    for(int i = 0; i < len; i++)
+    {
+	if(isalpha(text[i]))
 	{
-		if(isalpha(text[i]))
-		{
-			int letter = text[i];
-			counter++;
-		}
+	    counter++;
 	}
-	printf("%i", counter);
-	return counter;
+    }
+    printf("%i", counter);
+    return counter;
+}
+
+int calculate_words(string text)
+{
+    int counter = 0;
+    int len = strlen(text);
+    for(int i = 0; i < len; i++)
+    {
+	if(isspace(text[i]))
+	{
+	    counter++;
+	}
+    }
+    //n+1 to determine last word that doesn't have white-space after.
+    counter++;
+    return counter;
 }
