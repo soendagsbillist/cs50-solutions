@@ -4,12 +4,32 @@
 #include <stdio.h>
 #include <cs50.h>
 #include <string.h>
+#include <ctype.h>
 
 int main(int argc, string argv[])
 {
     if(argc == 2)
     {
-	printf("Success\n");
+	int len = strlen(argv[1]);
+	int counter = 0;
+	for(int i = 0; i < len; i++)
+	{
+	    if(isdigit(argv[1][i]))
+	    {
+		counter ++;
+	    }
+	}
+
+	if(counter == len)
+	{
+	    //key is validated, program can start
+	    printf("plaintext: ");
+	}
+	else
+	{
+	    printf("Usage: ./caesar key\n");
+	    return 1;
+	}
     }
     else
     {
