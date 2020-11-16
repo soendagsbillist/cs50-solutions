@@ -8,6 +8,7 @@
 #include <stdlib.h>
 
 int KEY;
+string PLAINTEXT;
 
 int main(int argc, string argv[])
 {
@@ -27,7 +28,7 @@ int main(int argc, string argv[])
 	if(counter == len)
 	{
 	    //key is validated, program can start
-	    printf("plaintext: ");
+	    PLAINTEXT = get_string("plaintext: ");
 	}
 	else
 	{
