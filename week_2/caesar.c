@@ -5,6 +5,9 @@
 #include <cs50.h>
 #include <string.h>
 #include <ctype.h>
+#include <stdlib.h>
+
+int KEY;
 
 int main(int argc, string argv[])
 {
@@ -16,7 +19,8 @@ int main(int argc, string argv[])
 	{
 	    if(isdigit(argv[1][i]))
 	    {
-		counter ++;
+		KEY = atoi(argv[1]);
+	    	counter ++;
 	    }
 	}
 
