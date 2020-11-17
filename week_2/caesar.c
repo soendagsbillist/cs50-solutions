@@ -37,6 +37,7 @@ int main(int argc, string argv[])
 		PLAINTEXT[i] = shift(PLAINTEXT[i], KEY);
 	    }
 	    printf("ciphertext: %s\n", PLAINTEXT);
+	    return 0;
 	}
 	else
 	{
