@@ -7,9 +7,11 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-bool validate_key(string key);
-
 #define ALPH_LEN 26
+
+bool validate_key(string key);
+void substitute(string txt, string key);
+
 
 int main(int argc, string argv[])
 {
@@ -18,6 +20,8 @@ int main(int argc, string argv[])
 	if(validate_key(argv[1]))
 	{
 	    string plaintext = get_string("plaintext: ");
+	    substitute(plaintext, argv[1]);
+	    return 0;
 	}
     }
     else
@@ -40,10 +44,10 @@ bool validate_key(string key)
     }
     else
     {
-	for (int i=0; i < ALPH_LEN; i++)
+	for (int i = 0; i < ALPH_LEN; i++)
 	{
 	    counter = 0;
-	    for (int j=0; j < ALPH_LEN; j++)
+	    for (int j = 0; j < ALPH_LEN; j++)
 	    {
 		if(validated_key[j] == key[i])
 		{
@@ -64,7 +68,7 @@ bool validate_key(string key)
 	}
 
 	int len = sizeof(validated_key) / sizeof(validated_key[0]);
-	for (int i = 0; i < len; i ++)
+	for (int i = 0; i < len; i++)
 	{
 	    if(!isalpha(validated_key[i]))
 	    {
@@ -75,4 +79,40 @@ bool validate_key(string key)
 	}
     }
     return true;
+}
+
+void substitute(string txt, string key)
+{
+    int upper[26] = {65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
+		     80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90};
+    int lower[26] = {97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109,
+		     110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121,
+		     122};
+
+    for (int i = 0; i < strlen(txt); i++)
+    {
+	if(txt[i] <= 90 && txt[i] >= 65)
+	{
+	    for (int j = 0; j < 26; j++)
+	    {
+		if(txt[i] == upper[j])
+		{
+		    txt[i] = toupper(key[j]);
+		    break;
+		}
+	    }
+	}
+	else if (txt[i] <= 122 && txt[i] >= 97)
+	{
+	    for (int j = 0; j < 26; j++)
+	    {
+		if(txt[i] == lower[j])
+		{
+		    txt[i] = tolower(key[j]);
+		    break;
+		}
+	    }
+	}
+    }
+    printf("ciphertext: %s\n", txt);
 }
