@@ -1,6 +1,8 @@
 #include <cs50.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
+#include <stdbool.h>
 
 #define MAX 9
 
@@ -12,6 +14,9 @@ typedef struct
 candidate;
 
 candidate candidates[MAX];
+int candidate_count;
+
+bool vote(string name);
 
 int main(int argc, string argv[])
 {
@@ -22,13 +27,12 @@ int main(int argc, string argv[])
     }
     else
     {
-	int candidate_count = argc - 1;
+	candidate_count = argc - 1;
 	if(candidate_count > MAX)
 	{
 	    printf("Maximum number of candidates is %i\n", MAX);
 	    return 1;
 	}
-	printf("%i", candidate_count);
 	for (int i = 0; i < candidate_count; i++)
 	{
 	    candidates[i].name = argv[i + 1];
@@ -39,9 +43,22 @@ int main(int argc, string argv[])
 
 	for (int i = 0; i < voter_count; i++)
 	{
-	    string vote = get_string("Vote: ");
-	    //vote(vote);
+	    vote(get_string("Vote: "));
 	}
-	//print_winnter();
+	//print_winner();
     }
+}
+
+//assume there's no duplication in names of the candidates
+bool vote(string name)
+{
+    for (int i = 0; i < candidate_count; i++)
+    {
+	if(strcmp(name, candidates[i].name) == 0)
+	{
+	    candidates[i].votes ++;
+	    return true;
+	}
+    }
+    return false;
 }
