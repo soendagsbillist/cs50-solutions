@@ -17,6 +17,7 @@ candidate candidates[MAX];
 int candidate_count;
 
 bool vote(string name);
+void print_winner(candidate cands[]);
 
 int main(int argc, string argv[])
 {
@@ -45,7 +46,7 @@ int main(int argc, string argv[])
 	{
 	    vote(get_string("Vote: "));
 	}
-	//print_winner();
+	print_winner(candidates);
     }
 }
 
@@ -61,4 +62,41 @@ bool vote(string name)
 	}
     }
     return false;
+}
+
+void print_winner(candidate cands[])
+{
+    int key, j;
+    candidate swap_candidate;
+
+    for (int i = 1; i < candidate_count; i++)
+    {
+    	key = cands[i].votes;
+	swap_candidate = cands[i];
+    	j = i - 1;
+    	while(j >= 0 && cands[j].votes > key)
+    	{
+    	    cands[j+1] = cands[j];
+    	    j -= 1;
+    	}
+	cands[j+1].votes = key;
+	cands[j+1] = swap_candidate;
+    }
+
+    int winner_position = candidate_count - 1;
+
+    for(int i = winner_position; i >= 0; i--)
+    {
+	int winner_score = cands[winner_position].votes;
+	//check the first place with second
+	if(winner_score != cands[winner_position - 1].votes)
+	{
+	    printf("the only one winner is: %s\n", cands[winner_position].name);
+	    return;
+	}
+	else if(winner_score == cands[i].votes && strcmp(cands[winner_position].name, cands[i].name) != 0)
+	{
+	    printf("tie");
+	}
+    }
 }
