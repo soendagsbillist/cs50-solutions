@@ -47,6 +47,7 @@ int main(int argc, string argv[])
 	    vote(get_string("Vote: "));
 	}
 	print_winner(candidates);
+	return 0;
     }
 }
 
@@ -84,6 +85,7 @@ void print_winner(candidate cands[])
     }
 
     int winner_position = candidate_count - 1;
+    int place_counter = 0;
 
     for(int i = winner_position; i >= 0; i--)
     {
@@ -94,9 +96,10 @@ void print_winner(candidate cands[])
 	    printf("the only one winner is: %s\n", cands[winner_position].name);
 	    return;
 	}
-	else if(winner_score == cands[i].votes && strcmp(cands[winner_position].name, cands[i].name) != 0)
+	else if(winner_score == cands[i].votes)
 	{
-	    printf("tie");
+	    place_counter++;
+	    printf("%i'st winner is: %s\n", place_counter, cands[i].name);
 	}
     }
 }
