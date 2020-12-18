@@ -179,8 +179,33 @@ bool print_winner(void)
 // Return the minimum number of votes any remaining candidate has
 int find_min(void)
 {
-    // TODO
-    return 0;
+    int key, j;
+    candidate sorted_candidates[MAX_CANDIDATES];
+    candidate candidate_swap;
+
+    //copy array to avoid side effects
+    for (int i = 0; i < candidate_count; i++)
+    {
+	sorted_candidates[i] = candidates[i];
+    }
+
+    for (int i = 0; i < candidate_count; i++)
+    {
+	if (sorted_candidates[i].eliminated == false)
+	{
+	    key = sorted_candidates[i].votes;
+	    candidate_swap = sorted_candidates[i];
+	    j = i - 1;
+	    while(j >= 0 && sorted_candidates[j].votes > key)
+	    {
+		sorted_candidates[j+1] = sorted_candidates[j];
+		j -= 1;
+	    }
+	    sorted_candidates[j+1].votes = key;
+	    sorted_candidates[j+1] = candidate_swap;
+	}
+    }
+    return sorted_candidates[0].votes;
 }
 
 // Return true if the election is tied between all candidates, false otherwise
